@@ -3,28 +3,48 @@
 #include <string.h>
 #include <time.h>
 
-const char* iloc(char* line, int index)
+//return token from line[index]
+char* iloc(char* line, int index)
 {
-    return NULL;
+	char* tok = strtok(line, "<> \t");
+	while(tok!=NULL)
+	{
+		//countdown while not zero
+		if(!index--)
+		{
+				printf("%s\n",tok); //lldbg
+				return tok;
+		}
+
+		tok=strtok(NULL,"<> \t\n");
+	}
+	return NULL;
 }
+
 int main(int argc, char* argv[])
 {
-    //test
+    //speedtest
     clock_t start =  clock();
+
     //2 arg = path to dataFile
-    char const* const dataFile = argv[1];
     //3 arg = column index
-    long index = strtol(argv[2], NULL, 10);
 
-    FILE* hFile = fopen(dataFile, "r") ;
-    
+    FILE* hFile = fopen(argv[1], "r");
+    if (hFile == NULL) 
+	{
+			printf("fopen error\n"); 
+			exit(1);
+	}
+
     char curLine[256];
-    printf("read column index %ld\n", index);
+    printf("read column index %s\n", argv[2]);
 
-    while (fgets(curLine, sizeof(curLine), hFile)){
+	//walk trougth all line in file
+    while (fgets(curLine, sizeof(curLine), hFile))
+	{
         //printf("%s", curLine);
         char* tmp = strdup(curLine);
-
+		iloc(tmp, atoi(argv[2]));
         free(tmp);    
     }
     fclose(hFile);
