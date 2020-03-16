@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 	}
 
     char curLine[256];
-    printf("read column index %s\n", argv[2]);
+    //printf("read column index %s\n", argv[2]);
 
 	//walk trougth all line in file
     while (fgets(curLine, sizeof(curLine), hFile))
