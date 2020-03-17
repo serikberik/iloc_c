@@ -12,7 +12,7 @@ char* iloc(char* line, int index)
 		//countdown while not zero
 		if(!index--)
 		{
-				printf("%s\n",tok); //lldbg
+				//printf("%s\n",tok); //lldbg
 				return tok;
 		}
 
@@ -23,11 +23,21 @@ char* iloc(char* line, int index)
 
 int main(int argc, char* argv[])
 {
-    //speedtest
-    clock_t start =  clock();
-
     //2 arg = path to dataFile
     //3 arg = column index
+	
+	//file line
+    char curLine[256];
+
+	//column width
+	int cell_size = 10;
+
+	//column_heigth
+	int column_nums = 10000000; 
+	
+	
+    //speedtest
+    clock_t start = clock();
 
     FILE* hFile = fopen(argv[1], "r");
     if (hFile == NULL) 
@@ -36,18 +46,28 @@ int main(int argc, char* argv[])
 			exit(1);
 	}
 
-    char curLine[256];
+	//allocate mem 7.9million line approx without relloc
+	char **buffer = calloc(column_nums, cell_size);
+	if(buffer==NULL)
+	{
+			printf("calloc error\n");
+			exit(1);
+	}
+	
     //printf("read column index %s\n", argv[2]);
+	int i = 0;
 
-	//walk trougth all line in file
+	//walk through all line in file
     while (fgets(curLine, sizeof(curLine), hFile))
 	{
         //printf("%s", curLine);
         char* tmp = strdup(curLine);
-		iloc(tmp, atoi(argv[2]));
+		buffer[i++] = iloc(tmp, atoi(argv[2]));
         free(tmp);    
     }
+	//printf("current len(buffer): [%d]\n", i);
     fclose(hFile);
+	free(buffer);
 
     clock_t end = clock();
     printf("elapsed time: [%.2f]ms\n", (double)((end-start)*1000/CLOCKS_PER_SEC));
