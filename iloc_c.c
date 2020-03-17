@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "magic.h"
 
 //return token from line[index]
 char* iloc(char* line, int index)
@@ -23,6 +24,7 @@ char* iloc(char* line, int index)
 
 int main(int argc, char* argv[])
 {
+		test();
     //2 arg = path to dataFile
     //3 arg = column index
 	
