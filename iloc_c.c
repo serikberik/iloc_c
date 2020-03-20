@@ -18,6 +18,7 @@ char* iloc(char* line, int index)
 				return tok;
 		}
 
+		//netxt token in cur line
 		tok=strtok(NULL,"<> \t\n");
 	}
 	return NULL;
@@ -55,11 +56,8 @@ int main(int argc, char* argv[])
 			printf("calloc error\n");
 			exit(1);
 	}
-	
-    //printf("read column index %s\n", argv[2]);
 
 	int i = 0;
-	double val=0;
 
 	//walk through all line in file
     while (fgets(curLine, sizeof(curLine), hFile))
@@ -67,13 +65,12 @@ int main(int argc, char* argv[])
         //printf("%s", curLine);
         char* tmp = strdup(curLine);
 		char* token = iloc( tmp, atoi(argv[2]) );
-		val = strtod(token, NULL);
-		buffer[i++] = val;
+		buffer[i++] = strtod(token, NULL);
         free(tmp);    
     }
 
-	printf("current len(buffer): [%d]\n", i);
-	//somecalculation(buffer, i, column_nums, cell_size);
+	//printf("current len(buffer): [%d]\n", i);
+	somecalculation(buffer, i, column_nums, cell_size);
 
     fclose(hFile);
 	free(buffer);
