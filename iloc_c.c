@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -24,7 +25,6 @@ char* iloc(char* line, int index)
 
 int main(int argc, char* argv[])
 {
-		test();
     //2 arg = path to dataFile
     //3 arg = column index
 	
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 	}
 
 	//allocate mem 7.9million line approx without relloc
-	char **buffer = calloc(column_nums, cell_size);
+	double *buffer = calloc(column_nums, sizeof(double));
 	if(buffer==NULL)
 	{
 			printf("calloc error\n");
@@ -57,17 +57,24 @@ int main(int argc, char* argv[])
 	}
 	
     //printf("read column index %s\n", argv[2]);
+
 	int i = 0;
+	double val=0;
 
 	//walk through all line in file
     while (fgets(curLine, sizeof(curLine), hFile))
 	{
         //printf("%s", curLine);
         char* tmp = strdup(curLine);
-		buffer[i++] = iloc(tmp, atoi(argv[2]));
+		char* token = iloc( tmp, atoi(argv[2]) );
+		val = strtod(token, NULL);
+		buffer[i++] = val;
         free(tmp);    
     }
-	//printf("current len(buffer): [%d]\n", i);
+
+	printf("current len(buffer): [%d]\n", i);
+	//somecalculation(buffer, i, column_nums, cell_size);
+
     fclose(hFile);
 	free(buffer);
 
