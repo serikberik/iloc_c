@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
     }
 
 	//printf("current len(buffer): [%d]\n", i);
-	somecalculation(buffer, i, column_nums, cell_size);
+	//somecalculation(buffer, i, column_nums, cell_size);
 
     fclose(hFile);
 	free(buffer);
