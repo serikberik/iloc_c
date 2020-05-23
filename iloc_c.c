@@ -50,7 +50,15 @@ int main(int argc, char* argv[])
 	}
 
 	//allocate mem 7.9million line approx without relloc
-	double *buffer = calloc(column_nums, sizeof(double));
+	//double *buffer = calloc(column_nums, sizeof(double));
+
+	//get file size
+	fseek(hFile, 0 , SEEK_END);
+	long file_size = ftell(hFile);
+	fseek(hFile,0,SEEK_SET);
+	printf("file size: %d\n", file_size);
+
+	double *buffer = calloc(file_size, sizeof(double));
 	if(buffer==NULL)
 	{
 			printf("calloc error\n");
@@ -70,7 +78,7 @@ int main(int argc, char* argv[])
     }
 
 	//printf("current len(buffer): [%d]\n", i);
-	//somecalculation(buffer, i, column_nums, cell_size);
+	somecalculation(buffer, i, column_nums, cell_size);
 
     fclose(hFile);
 	free(buffer);
